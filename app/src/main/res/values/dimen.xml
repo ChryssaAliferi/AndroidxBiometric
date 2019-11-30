@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dim_16">16dp</dimen>
+    <dimen name="dim_40">40dp</dimen>
+
+    <dimen name="button_radius">12dp</dimen>
+    <dimen name="button_radius_8dp">8dp</dimen>
+    <dimen name="button_elevation">6dp</dimen>
+
+    <dimen name="text_plain">20sp</dimen>
+    <dimen name="text_h4_size">32sp</dimen>
+</resources>
