@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        button = findViewById(R.id.mb_use_fingerprint)
+        button = findViewById(R.id.mb_use_biometric)
         button.setOnClickListener {
             showBiometricPrompt()
         }
