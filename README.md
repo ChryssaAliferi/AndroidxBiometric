@@ -1,27 +1,14 @@
-package com.califeri.androidxbiometric
+# AndroidXBiometric
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+AndroidXBiometric is an example of the usage of androidx Biometric API, using a `BiometricPromptUtils.kt` class that wraps up the main methods for building a biometric prompt.
 
-class MainActivity : AppCompatActivity() {
+With the launch of Android 10 (API level 29), developers can now use the Biometric API, part of the AndroidX Biometric Library, for all their on-device user authentication needs.
+Biometric API provides a standardised dialog that works out of the box across multiple Android versions and persists across orientation changes. Also, it keeps things simple by only requiring you to provide the text that will be displayed to the user and a few callbacks for authentication success or failure.
 
-    private lateinit var button: MaterialButton
+## Usage
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initializeViews()
-    }
-
-    private fun initializeViews() {
-        button = findViewById(R.id.mb_use_biometric)
-        button.setOnClickListener {
-            showBiometricPrompt()
-        }
-    }
-
-    private fun showBiometricPrompt() {
+```kotlin
+private fun showBiometricPrompt() {
         val biometricPromptUtils = BiometricPromptUtils(this, object : BiometricPromptUtils.BiometricListener {
             override fun onAuthenticationLockoutError() {
                 // implement your lockout error UI prompt
@@ -49,4 +36,7 @@ class MainActivity : AppCompatActivity() {
             confirmationRequired = false
         )
     }
-}
+```
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
