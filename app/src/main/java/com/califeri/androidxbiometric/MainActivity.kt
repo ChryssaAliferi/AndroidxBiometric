@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         })
         biometricPromptUtils.showBiometricPrompt(
             resources.getString(R.string.confirmYourBiometricsKey),
-            resources.getString(R.string.cancelKey)
+            resources.getString(R.string.cancelKey),
+            confirmationRequired = false
         )
     }
 }

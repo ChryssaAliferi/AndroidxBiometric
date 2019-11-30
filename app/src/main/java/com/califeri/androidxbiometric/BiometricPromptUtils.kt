@@ -10,17 +10,23 @@ class BiometricPromptUtils(
     private val fragmentActivity: FragmentActivity,
     private val biometricListener: BiometricListener? = null
 ) {
-    fun showBiometricPrompt(title: String, negativeText: String) {
+    fun showBiometricPrompt(title: String, negativeText: String, confirmationRequired: Boolean) {
         if (canAuthenticate()) {
-            createBiometricPrompt(fragmentActivity).authenticate(createBiometricPromptInfo(title, negativeText))
+            createBiometricPrompt(fragmentActivity).authenticate(
+                createBiometricPromptInfo(title, negativeText, confirmationRequired)
+            )
         }
     }
 
-    private fun createBiometricPromptInfo(title: String, negativeText: String): BiometricPrompt.PromptInfo {
+    private fun createBiometricPromptInfo(
+        title: String,
+        negativeText: String,
+        confirmationRequired: Boolean
+    ): BiometricPrompt.PromptInfo {
         return BiometricPrompt.PromptInfo.Builder()
             .setTitle(title)
             .setNegativeButtonText(negativeText)
-            .setConfirmationRequired(true)
+            .setConfirmationRequired(confirmationRequired)
             .build()
     }
 
@@ -54,7 +60,9 @@ class BiometricPromptUtils(
         })
     }
 
-    private fun canAuthenticate(): Boolean {
+    // You can use the same method in order to know beforehand if your device has biometric hardware
+    // or if the user has biometric data enrolled
+    fun canAuthenticate(): Boolean {
         when (BiometricManager.from(fragmentActivity).canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> return true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> return false
