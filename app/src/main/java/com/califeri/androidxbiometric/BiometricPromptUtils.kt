@@ -1,6 +1,5 @@
 package com.califeri.androidxbiometric
 
-import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.ERROR_LOCKOUT
