@@ -7,6 +7,10 @@
     <dimen name="button_radius_8dp">8dp</dimen>
     <dimen name="button_elevation">6dp</dimen>
 
-    <dimen name="text_plain">20sp</dimen>
-    <dimen name="text_h4_size">32sp</dimen>
+    <dimen name="small_button_elevation">2dp</dimen>
+
+    <dimen name="text_h4_size">34sp</dimen>
+    <dimen name="text_h5_size">24sp</dimen>
+    <dimen name="text_h6_size">20sp</dimen>
+    <dimen name="text_subtitle1_size">16sp</dimen>
 </resources>

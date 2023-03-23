@@ -9,15 +9,21 @@ import java.util.concurrent.Executors
 
 class BiometricPromptUtils(
     private val fragmentActivity: FragmentActivity,
-    private val biometricListener: BiometricListener? = null
+    private val biometricListener: BiometricListener? = null,
+    private val cryptoUtils: CryptoUtils
 ) {
     fun showBiometricPrompt(title: String, negativeText: String, confirmationRequired: Boolean) {
         if (canAuthenticate()) {
-            createBiometricPrompt(fragmentActivity).authenticate(
-                createBiometricPromptInfo(title, negativeText, confirmationRequired)
-            )
+            cryptoUtils.getCrypto()?.let { cryptoObject ->
+                createBiometricPrompt(fragmentActivity)
+                    .authenticate(createBiometricPromptInfo(title, negativeText, confirmationRequired), cryptoObject)
+            } ?: run {
+                biometricListener?.onNewBiometricEnrollment()
+            }
         }
     }
+
+    fun generateCryptoKey() = cryptoUtils.generateKey()
 
     private fun createBiometricPromptInfo(
         title: String,
@@ -80,5 +86,6 @@ class BiometricPromptUtils(
         fun onAuthenticationError()
         fun onAuthenticationLockoutError()
         fun onAuthenticationPermanentLockoutError()
+        fun onNewBiometricEnrollment()
     }
 }

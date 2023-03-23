@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AndroidxBiometric</string>
     <string name="useYourBiometricsKey">Use your biometrics</string>
+    <string name="createYourCryptoObjectKey">Create your crypto object</string>
     <string name="unlockWithBiometricsTitleKey">Unlock with your biometrics</string>
     <string name="unlockWithBiometricsSubtitleKey">Use your fingerprint or your face unlock to unlock the app with ease.</string>
     <string name="confirmYourBiometricsKey">Confirm your biometrics</string>

@@ -42,6 +42,17 @@
             android:text="@string/unlockWithBiometricsSubtitleKey"
             android:textAppearance="@style/AppTheme.TextAppearance.PlainText" />
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mb_create_crypto_object"
+            style="@style/AppTheme.MaterialComponents.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_16"
+            android:layout_marginRight="@dimen/dim_16"
+            android:layout_gravity="center"
+            android:text="@string/createYourCryptoObjectKey" />
+
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
