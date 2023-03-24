@@ -29,6 +29,15 @@ private fun showBiometricPrompt() {
             override fun onAuthenticationError() {
                 // implement your authentication error UI prompt
             }
+
+            override fun onNewBiometricEnrollment() {
+                // implement the logic when a new biometric has been enrolled
+            }
+
+            override fun onFirstBiometricAuthentication() {
+                // implement the logic before a key is generated
+            }
+
         })
         biometricPromptUtils.showBiometricPrompt(
             resources.getString(R.string.confirmYourBiometricsKey),
