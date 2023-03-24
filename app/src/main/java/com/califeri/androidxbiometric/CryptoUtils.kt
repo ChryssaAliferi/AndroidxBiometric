@@ -13,7 +13,7 @@ import javax.crypto.SecretKey
 private const val DEFAULT_KEYSTORE = "AndroidKeyStore"
 private const val DEFAULT_KEY_NAME = "biometrics_key"
 
-class CryptoUtils {
+class CryptoUtils() {
 
     fun generateKey() {
         val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, DEFAULT_KEYSTORE)
@@ -21,24 +21,22 @@ class CryptoUtils {
         keyGenerator.generateKey()
     }
 
-    fun getCrypto(): BiometricPrompt.CryptoObject? {
-        return try {
+    fun getCrypto(listener: SecretKeyCreationListener) {
+        try {
             val cipher = getCipher()
             val key = getKey()
             cipher.init(Cipher.ENCRYPT_MODE, key)
             BiometricPrompt.CryptoObject(cipher)
+            listener.onCryptoObjectCreated(BiometricPrompt.CryptoObject(cipher))
         } catch (e: KeyPermanentlyInvalidatedException) {
             Log.d(TAG, "Key permanently invalidated")
             val keyStore = KeyStore.getInstance(DEFAULT_KEYSTORE)
             keyStore.load(null)
             keyStore.deleteEntry(DEFAULT_KEY_NAME)
-            null
+            listener.onKeyStorePermanentlyInvalidated()
         } catch (e: NullPointerException) {
             Log.d(TAG, "SecretKey not created")
-            val keyStore = KeyStore.getInstance(DEFAULT_KEYSTORE)
-            keyStore.load(null)
-            keyStore.deleteEntry(DEFAULT_KEY_NAME)
-            null
+            listener.onSecretedKeyNotCreated()
         }
     }
 
@@ -61,5 +59,11 @@ class CryptoUtils {
                     + KeyProperties.BLOCK_MODE_CBC + "/"
                     + KeyProperties.ENCRYPTION_PADDING_PKCS7
         )
+    }
+
+    interface SecretKeyCreationListener {
+        fun onCryptoObjectCreated(cryptoObject: BiometricPrompt.CryptoObject)
+        fun onKeyStorePermanentlyInvalidated()
+        fun onSecretedKeyNotCreated()
     }
 }

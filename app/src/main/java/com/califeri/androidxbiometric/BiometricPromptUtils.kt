@@ -12,18 +12,27 @@ class BiometricPromptUtils(
     private val biometricListener: BiometricListener? = null,
     private val cryptoUtils: CryptoUtils
 ) {
-    fun showBiometricPrompt(title: String, negativeText: String, confirmationRequired: Boolean) {
-        if (canAuthenticate()) {
-            cryptoUtils.getCrypto()?.let { cryptoObject ->
-                createBiometricPrompt(fragmentActivity)
-                    .authenticate(createBiometricPromptInfo(title, negativeText, confirmationRequired), cryptoObject)
-            } ?: run {
-                biometricListener?.onNewBiometricEnrollment()
-            }
-        }
-    }
 
     fun generateCryptoKey() = cryptoUtils.generateKey()
+
+    fun showBiometricPrompt(title: String, negativeText: String, confirmationRequired: Boolean) {
+        if (isDeviceSupportingBiometrics()) {
+            cryptoUtils.getCrypto(object : CryptoUtils.SecretKeyCreationListener {
+                override fun onCryptoObjectCreated(cryptoObject: BiometricPrompt.CryptoObject) {
+                    createBiometricPrompt(fragmentActivity)
+                        .authenticate(createBiometricPromptInfo(title, negativeText, confirmationRequired), cryptoObject)
+                }
+
+                override fun onKeyStorePermanentlyInvalidated() {
+                    biometricListener?.onNewBiometricEnrollment()
+                }
+
+                override fun onSecretedKeyNotCreated() {
+                    biometricListener?.onFirstBiometricAuthentication()
+                }
+            })
+        }
+    }
 
     private fun createBiometricPromptInfo(
         title: String,
@@ -67,9 +76,7 @@ class BiometricPromptUtils(
         })
     }
 
-    // You can use the same method in order to know beforehand if your device has biometric hardware
-    // or if the user has biometric data enrolled
-    private fun canAuthenticate(): Boolean {
+    private fun isDeviceSupportingBiometrics(): Boolean {
         return when (BiometricManager.from(fragmentActivity)
             .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
@@ -81,11 +88,13 @@ class BiometricPromptUtils(
     }
 
     interface BiometricListener {
+
         fun onAuthenticationSuccess()
         fun onAuthenticationFailed()
         fun onAuthenticationError()
         fun onAuthenticationLockoutError()
         fun onAuthenticationPermanentLockoutError()
         fun onNewBiometricEnrollment()
+        fun onFirstBiometricAuthentication()
     }
 }

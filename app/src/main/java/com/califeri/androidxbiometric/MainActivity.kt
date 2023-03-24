@@ -2,7 +2,6 @@ package com.califeri.androidxbiometric
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 
@@ -23,6 +22,10 @@ class MainActivity : AppCompatActivity() {
 
         override fun onNewBiometricEnrollment() {
             Log.d(TAG, "onNewBiometricEnrollment")
+        }
+
+        override fun onFirstBiometricAuthentication() {
+            Log.d(TAG, "on First Biometric Authentication")
         }
 
         override fun onAuthenticationSuccess() {
