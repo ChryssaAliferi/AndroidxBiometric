@@ -47,14 +47,17 @@ private fun showBiometricPrompt() {
         )
     }
 ```
-If you want to detect when another fingerprint/biometric is added or removed we need to use cipher and secret key to verify biometric data. First, we need to generate a key when the application gives approval to the usage of Biometrics. Usually this happens in the login/sign up flow of the app after entering the Pin, or where you enable the biometrics setting.
+
+If you want to detect when another fingerprint/biometric is added or removed you need to use cipher and secret key to verify biometric data. First, you need to generate a key when the application gives approval to the usage of Biometrics. Usually this happens in the login/sign up flow of the app after entering the Pin, or where you enable the biometrics setting.
 
 ```kotlin
  biometricPromptUtils.generateCryptoKey()
 ```
+
 This key stays valid until biometric data changes by adding a new fingerprint for example. This happens when `setInvalidatedByBiometricEnrollment(true)` is set to true.
 If a change gets detected, then the `BiometricPromptUtils.BiometricListener` will post a `onNewBiometricEnrollment()` the first time this happens and then the key would be deleted.
 You can enable your biometric setting again in your app, by creating a new key.
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
