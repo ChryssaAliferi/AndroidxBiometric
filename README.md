@@ -1,4 +1,5 @@
 # AndroidXBiometric
+![AndroidXBiometric screenshot](screenshot.png)
 
 AndroidXBiometric is an example of the usage of androidx Biometric API, using a `BiometricPromptUtils.kt` class that wraps up the main methods for building a biometric prompt.
 
