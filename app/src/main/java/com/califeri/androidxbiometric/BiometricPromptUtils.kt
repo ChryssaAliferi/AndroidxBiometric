@@ -13,7 +13,11 @@ class BiometricPromptUtils(
     private val cryptoUtils: CryptoUtils
 ) {
 
-    fun generateCryptoKey() = cryptoUtils.generateKey()
+    fun generateCryptoKey() {
+        if (isDeviceSupportingBiometrics()) {
+            cryptoUtils.generateKey()
+        }
+    }
 
     fun showBiometricPrompt(title: String, negativeText: String, confirmationRequired: Boolean) {
         if (isDeviceSupportingBiometrics()) {
@@ -78,7 +82,7 @@ class BiometricPromptUtils(
 
     private fun isDeviceSupportingBiometrics(): Boolean {
         return when (BiometricManager.from(fragmentActivity)
-            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> false
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> false
